@@ -18,7 +18,14 @@
       "Write",
       "Edit",
       "Glob",
-      "Grep"
+      "Grep",
+      "Bash(mkdir -p agent/providers config tests)",
+      "Bash(touch knowledge/.gitkeep agent/__init__.py agent/providers/__init__.py tests/__init__.py)",
+      "Bash(python3 -m venv .venv)",
+      "Bash(source .venv/bin/activate)",
+      "Bash(python -c \"from agent.brain import generar_respuesta; from agent.memory import inicializar_db; print\\(''Imports OK''\\)\")",
+      "Bash(ngrok version:*)",
+      "Bash(python -c \":*)"
     ]
   }
 }

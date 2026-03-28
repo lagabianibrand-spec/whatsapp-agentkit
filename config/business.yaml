@@ -1,0 +1,35 @@
+# Configuración del negocio — Generado por AgentKit
+negocio:
+  nombre: "LAGABIANI"
+  descripcion: >
+    LAGABIANI es una boutique de rosas preservadas de lujo fundada en 2023.
+    Especializada en arreglos florales con rosas 100% reales tratadas con un
+    proceso avanzado de preservación que las mantiene hermosas durante años,
+    sin agua ni mantenimiento. Toda la operación es en dólares americanos (USD).
+  horario: "Lunes a Sábado: 10:00 a.m. – 6:00 p.m. (EST)"
+  telefono: "+1 (954) 347-6492"
+  web: "lagabiani.com"
+  instagram: "@lagabiani"
+  tiktok: "@lagabiani"
+
+agente:
+  nombre: "Gabi"
+  tono: "profesional y empático"
+  casos_de_uso:
+    - "Responder preguntas frecuentes"
+    - "Agendar citas o visitas (línea ART)"
+    - "Calificar y atender leads / ventas"
+    - "Tomar pedidos"
+    - "Soporte post-venta"
+
+lineas_negocio:
+  gift:
+    descripcion: "Arreglos y cajas de rosas preservadas para regalar"
+    cobertura: "Nacional en EE. UU."
+  art:
+    descripcion: "Instalaciones florales para espacios comerciales y privados"
+    cobertura: "Toda Florida"
+
+metadata:
+  creado: "2026-03-23"
+  version: "1.0"
