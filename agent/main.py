@@ -60,9 +60,17 @@ async def enviar_mensaje_instagram(sender_id: str, respuesta: str) -> bool:
         "message": {"text": respuesta},
         "messaging_type": "RESPONSE"
     }
+    # DEBUG — log completo del request y response para diagnóstico
+    logger.info(f"[IG-SEND] URL: {url}")
+    logger.info(f"[IG-SEND] RECIPIENT ID: {sender_id}")
+    logger.info(f"[IG-SEND] PAYLOAD: {payload}")
+    logger.info(f"[IG-SEND] TOKEN presente: {'SÍ' if token else 'NO'} — primeros 10 chars: {token[:10]}...")
     async with httpx.AsyncClient() as client:
         r = await client.post(url, json=payload, params={"access_token": token})
-        logger.info(f"Meta Send API: {r.status_code} — {r.text[:200]}")
+        logger.info(f"[IG-SEND] STATUS: {r.status_code}")
+        logger.info(f"[IG-SEND] RESPONSE BODY COMPLETO: {r.text}")
+        if r.status_code != 200:
+            logger.error(f"[IG-SEND] ERROR — {r.status_code}: {r.text}")
         return r.status_code == 200
 
 
