@@ -83,14 +83,29 @@ class ProveedorWhapi(ProveedorWhatsApp):
             if from_me or source == "api":
                 logger.info(f"Ignorando — from_me: {from_me}, source: {source}")
                 continue
-            if tipo != "text":
-                logger.info(f"Ignorando tipo '{tipo}'")
-                continue
-            texto = msg.get("text", {}).get("body", "").strip()
-            if not texto:
-                continue
+
             if not chat_id or "@" not in chat_id:
                 logger.warning(f"chat_id inválido: '{chat_id}'")
+                continue
+
+            # Mensajes de audio/media: responder elegante en lugar de ignorar
+            TIPOS_MEDIA = {"audio", "voice", "image", "video", "document", "sticker", "ptt"}
+            if tipo in TIPOS_MEDIA:
+                logger.info(f"Mensaje de tipo '{tipo}' — respondiendo con aviso de texto")
+                mensajes.append(MensajeEntrante(
+                    telefono=chat_id,
+                    texto="__MEDIA__",
+                    mensaje_id=msg.get("id", ""),
+                    es_propio=False,
+                ))
+                continue
+
+            if tipo != "text":
+                logger.info(f"Ignorando tipo desconocido '{tipo}'")
+                continue
+
+            texto = msg.get("text", {}).get("body", "").strip()
+            if not texto:
                 continue
 
             logger.info(f"Mensaje REAL aceptado — chat_id: {chat_id}, texto: {texto}")

@@ -134,6 +134,15 @@ async def webhook_handler(request: Request):
         for msg in mensajes:
             if msg.es_propio or not msg.texto:
                 continue
+
+            # Respuesta elegante para notas de voz / archivos multimedia
+            if msg.texto == "__MEDIA__":
+                await proveedor.enviar_mensaje(
+                    msg.telefono,
+                    "Por ahora solo proceso mensajes de texto. ¿Me lo puedes escribir? 😊"
+                )
+                continue
+
             logger.info(f"WhatsApp — {msg.telefono}: {msg.texto}")
             historial = await obtener_historial(msg.telefono)
             respuesta = await generar_respuesta(msg.texto, historial)

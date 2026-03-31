@@ -9,7 +9,8 @@ y genera respuestas usando la API de Anthropic Claude.
 import os
 import yaml
 import logging
-from anthropic import AsyncAnthropic
+import traceback
+from anthropic import AsyncAnthropic, APIStatusError, APIConnectionError, AuthenticationError
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -96,6 +97,19 @@ async def generar_respuesta(mensaje: str, historial: list[dict]) -> str:
         logger.info(f"Respuesta generada ({response.usage.input_tokens} in / {response.usage.output_tokens} out)")
         return respuesta
 
+    except AuthenticationError as e:
+        logger.error(f"[BRAIN] ERROR AUTENTICACIÓN — API key inválida o sin créditos: {e}")
+        logger.error(traceback.format_exc())
+        return obtener_mensaje_error()
+    except APIStatusError as e:
+        logger.error(f"[BRAIN] ERROR STATUS {e.status_code} — {e.message} — body: {e.body}")
+        logger.error(traceback.format_exc())
+        return obtener_mensaje_error()
+    except APIConnectionError as e:
+        logger.error(f"[BRAIN] ERROR CONEXIÓN — no se pudo alcanzar Anthropic API: {e}")
+        logger.error(traceback.format_exc())
+        return obtener_mensaje_error()
     except Exception as e:
-        logger.error(f"Error Claude API: {e}")
+        logger.error(f"[BRAIN] ERROR INESPERADO tipo {type(e).__name__}: {e}")
+        logger.error(traceback.format_exc())
         return obtener_mensaje_error()
